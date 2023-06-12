@@ -8,7 +8,7 @@ const defaultSourceCode =
 printer.println("Hello World");
 printer.setCharacterSet("SLOVENIA");
 printer.bold(true);
-printer.setTextSize(7, 7);
+printer.setTextSize(2, 2);
 printer.leftRight("Left", "Right");
 `
 

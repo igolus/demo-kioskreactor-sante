@@ -6,7 +6,6 @@ function VitalCardRead(props) {
     const {vitalScriptReady, vitalData, vitalCardInside} = useAppContext()
     return (
         <div>
-            <p>{vitalScriptReady ? "Y" : "N"}</p>
             <p>{vitalCardInside ? "vitalCardInside Y" : "vitalCardInside N"}</p>
             <p>{JSON.stringify(vitalData || {})}</p>
         </div>

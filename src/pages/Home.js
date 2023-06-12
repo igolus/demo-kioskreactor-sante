@@ -5,8 +5,7 @@ function Home() {
     const {deviceIdParam} = useAppContext();
     return (
         <div>
-            <h1>HOME</h1>
-            <h1>{deviceIdParam}</h1>
+            <h1>deviceId: {deviceIdParam}</h1>
         </div>
     );
 }
