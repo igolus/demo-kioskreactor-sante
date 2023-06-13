@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import useAppContext from "./hooks/useAppContext";
 import {connectIcanope} from "./util/vitalUtil";
+import ClipLoaderComponent from "./component/ClipLoaderComponent";
 
 var scriptLoaded = false;
 
@@ -32,7 +33,8 @@ var dmpConnectInstance;
 
 function Loader({children, deviceIdParam}) {
 
-    const {setKioskReactorJSLoaded, setVitalCardInside, setVitalData, setVitalScriptReady} = useAppContext();
+    const {setKioskReactorJSLoaded, setVitalCardInside,
+        setVitalData, setVitalScriptReady, vitalScriptReady, kioskReactorJSLoaded} = useAppContext();
 
     useEffect(() => {
         loadJsUrl();
@@ -56,6 +58,7 @@ function Loader({children, deviceIdParam}) {
         scriptDmConnect.src = "https://us-central1-totemsystem-5889b.cloudfunctions.net/homePage/dmConnect";
         scriptDmConnect.async = false;
         scriptDmConnect.onload = () => {
+            setVitalScriptReady(true);
             const DMPConnectCons = window['DMPConnect'];
             dmpConnectInstance = new DMPConnectCons(appendLog, updateStateDisplay, handleError,
                 wrapperInitialized, "9982", "localhost.icanopee.net");
@@ -64,7 +67,7 @@ function Loader({children, deviceIdParam}) {
                 try {
                     connectIcanope(dmpConnectInstance,
                         setVitalCardInside, setVitalData, appendLog);
-                    setVitalScriptReady(true);
+
                     clearInterval(interval);
                 }
                 catch (err) {
@@ -79,7 +82,13 @@ function Loader({children, deviceIdParam}) {
 
     return (
         <>
-            {children}
+            {(vitalScriptReady && kioskReactorJSLoaded) ?
+                <>
+                    {children}
+                </>
+                :
+                <ClipLoaderComponent/>
+            }
         </>
     );
 }
